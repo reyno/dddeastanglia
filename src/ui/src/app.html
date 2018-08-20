@@ -1,0 +1,8 @@
+<template>
+  <h1>${message}</h1>
+  <p>Add new value: <input value.bind="newValue"
+           size="8"><button click.trigger="addNewValue()">Add</button></p>
+  <ul>
+    <li repeat.for="item of values">(${item.id}) ${item.value}    <a href="#" click.delegate="delete(item)">delete</a></li>
+  </ul>
+</template>

@@ -1,0 +1,10 @@
+{
+	"folders": [
+		{
+			"path": "src\\api"
+		},
+		{
+			"path": "src\\ui"
+		}
+	]
+}
