@@ -24,9 +24,18 @@ namespace DDDEastAnglia.Api.MediatR {
             RequestHandlerDelegate<TResponse> next
             ) {
 
+
+            await Authorise(request, cancellationToken);
+
             await Validate(request, cancellationToken);
 
             return await next();
+
+        }
+
+        private Task Authorise(TRequest request, CancellationToken cancellationToken) {
+
+            throw new NotImplementedException();
 
         }
 

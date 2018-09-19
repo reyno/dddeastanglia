@@ -21,21 +21,12 @@ namespace DDDEastAnglia.Api {
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
 
-            // Add AutoMapper and MediatR
-            services.AddAutoMapper(options => options.CreateMissingTypeMaps = true);
-            services.AddMediatR();
+            services.AddMediator();
 
-            // Add pipeline behavior using open generics
-            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(PipelineBehavior<,>));
-
-            // Add request validators to DI
-            services.AddRequestValidators();
 
             services.AddCors();
             services.AddDbContext<Db>(options => options.UseInMemoryDatabase("temp"));
-            services.AddMvc()
-                .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,7 +45,9 @@ namespace DDDEastAnglia.Api {
             );
 
             app.UseHttpsRedirection();
-            app.UseMvc();
+
+            app.UseMediator();
+
         }
     }
 }
