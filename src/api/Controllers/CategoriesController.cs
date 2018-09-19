@@ -1,5 +1,8 @@
 ﻿using DDDEastAnglia.Api.Data;
 using DDDEastAnglia.Api.Data.Entities;
+using DDDEastAnglia.Api.MediatR.Requests.Categories;
+using DDDEastAnglia.Api.Models;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -10,20 +13,20 @@ namespace DDDEastAnglia.Api.Controllers {
     [ApiController]
     public class CategoriesController : ControllerBase
     {
-        private readonly Db _db;
+        private readonly IMediator _mediator;
 
         public CategoriesController(
-            Db db
+            IMediator mediator
             ) {
-            _db = db;
+            _mediator = mediator;
         }
 
         // GET api/values
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Category>>> Get()
+        public async Task<ActionResult<IEnumerable<CategoryModel>>> Get()
         {
 
-            var categories = await _db.Categories.ToListAsync();
+            var categories = await _mediator.Send(new GetAllRequest());
 
             return Ok(categories);
 
@@ -34,20 +37,10 @@ namespace DDDEastAnglia.Api.Controllers {
         public async Task<ActionResult<Category>> Post([FromBody, Bind("Title", "Description")] Category model)
         {
 
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            if (await _db.Categories.AnyAsync(x => x.Title.Equals(model.Title)))
-                return BadRequest("Duplicate");
-
-            var newCategory = new Category
-            {
-                Title= model.Title,
+            var newCategory = await _mediator.Send(new CreateRequest {
+                Title = model.Title,
                 Description = model.Description
-            };
-
-            _db.Categories.Add(newCategory);
-            await _db.SaveChangesAsync();
+            });
 
             return Ok(newCategory);
 

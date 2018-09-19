@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DDDEastAnglia.Api.Data;
+using DDDEastAnglia.Api.MediatR;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -9,23 +10,22 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DDDEastAnglia.Api {
-    public class Startup
-    {
-        public Startup(IConfiguration configuration)
-        {
+    public class Startup {
+        public Startup(IConfiguration configuration) {
             Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
+        public void ConfigureServices(IServiceCollection services) {
 
             // Add AutoMapper and MediatR
             services.AddAutoMapper(options => options.CreateMissingTypeMaps = true);
             services.AddMediatR();
 
+            // Add pipeline behavior using open generics
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(PipelineBehavior<,>));
 
             services.AddCors();
             services.AddDbContext<Db>(options => options.UseInMemoryDatabase("temp"));
@@ -35,14 +35,10 @@ namespace DDDEastAnglia.Api {
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
-            if (env.IsDevelopment())
-            {
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
+            if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
-            }
-            else
-            {
+            } else {
                 app.UseHsts();
             }
 
@@ -52,7 +48,7 @@ namespace DDDEastAnglia.Api {
                 .AllowAnyOrigin()
                 .AllowCredentials()
             );
-            
+
             app.UseHttpsRedirection();
             app.UseMvc();
         }
