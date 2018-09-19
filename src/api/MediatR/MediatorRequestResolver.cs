@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using DDDEastAnglia.Api.Exceptions;
+using MediatR;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -32,7 +33,13 @@ namespace DDDEastAnglia.Api.MediatR {
 
             var fullname = $"{_mediatorOptions.NamespacePrefix}.{name}{_mediatorOptions.RequestNameSuffix}";
 
-            return _requestTypes.SingleOrDefault(x => x.FullName.EndsWith(fullname, StringComparison.OrdinalIgnoreCase));            
+            var matches = _requestTypes.Where(x => x.FullName.EndsWith(fullname, StringComparison.OrdinalIgnoreCase));
+
+            switch (matches.Count()) {
+                case 0: throw new NotFoundException($"No matching request found for path: {fullname}");
+                case 1: return matches.Single();
+                default: throw new InvalidOperationException($"Multiple requests found for path: {fullname}");
+            }
 
         }
 
