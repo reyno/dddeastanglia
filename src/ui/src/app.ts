@@ -1,6 +1,6 @@
-import { ProductsService, ProductModel } from './../services/products';
+import { ProductsService, ProductModel } from 'services/products';
 import { autoinject } from 'aurelia-framework';
-import { CategoriesService, CategoryModel } from '../services/categories';
+import { CategoriesService, CategoryModel } from 'services/categories';
 import './app.less';
 
 @autoinject
