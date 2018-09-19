@@ -1,14 +1,13 @@
-﻿using AutoMapper;
-using DDDEastAnglia.Api.Data;
-using DDDEastAnglia.Api.MediatR;
-using DDDEastAnglia.Api.MediatR.Requests.Categories;
-using MediatR;
+﻿using DDDEastAnglia.Api.Data;
+using DDDEastAnglia.Api.Options;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace DDDEastAnglia.Api {
     public class Startup {
@@ -23,9 +22,18 @@ namespace DDDEastAnglia.Api {
 
             services.AddMediator();
 
-
             services.AddCors();
             services.AddDbContext<Db>(options => options.UseInMemoryDatabase("temp"));
+
+            // Setup options configuration for auth
+            services.AddSingleton<IConfigureOptions<JwtBearerOptions>, ConfigureJwtBearerOptions>();
+            services.AddSingleton<IConfigureOptions<AuthorizationOptions>, ConfigureAuthorizationOptions>();
+
+            // Setup auth
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
+            services.AddAuthorization();
+            services.AddAuthorizationPolicyEvaluator();
+
 
         }
 
