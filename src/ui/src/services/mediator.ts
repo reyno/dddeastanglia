@@ -1,9 +1,9 @@
 import { HttpClient, json } from "aurelia-fetch-client";
-import { autoinject, Container } from "aurelia-framework";
+import { autoinject } from "aurelia-framework";
 import environment from '../environment';
 
 @autoinject
-class Mediator {
+export class Mediator {
 
   constructor(
     private httpClient: HttpClient
@@ -45,4 +45,3 @@ class ValidationError extends Error {
   }
 }
 
-export var mediator = Container.instance.get(Mediator) as IMediator;

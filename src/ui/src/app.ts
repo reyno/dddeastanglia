@@ -1,6 +1,6 @@
+import { ProductsService, ProductModel } from 'services/products';
 import { autoinject } from 'aurelia-framework';
-import { mediator } from 'services/mediator';
-
+import { CategoriesService, CategoryModel } from 'services/categories';
 import './app.less';
 
 @autoinject
@@ -14,17 +14,19 @@ export class App {
   newProduct: ProductModel = { title: "" };
 
   constructor(
+    private categoriesService: CategoriesService,
+    private productsService: ProductsService
   ) { }
 
   async attached() {
 
-    this.categories = await mediator.send("categories.getAll");
+    this.categories = await this.categoriesService.getAll();
 
   }
 
   async addCategory() {
 
-    const value = await mediator.send("categories.create", this.newCategory);
+    const value = await this.categoriesService.create(this.newCategory);
 
     this.categories.push(value);
 
@@ -38,18 +40,15 @@ export class App {
   }
 
   async loadProducts() {
-    this.products = await mediator.send("categories.products.getAll", { categoryId: this.selectedCategory.id });
+    this.products = await this.productsService.getForCategory(this.selectedCategory.id);
   }
 
   async addProduct() {
 
-    const categoryId = this.selectedCategory.id;
-    const data = {
-      ...this.newProduct,
-      ...{ categoryId }
-    };
-
-    const value = await mediator.send("categories.products.create", data);
+    const value = await this.productsService.create(
+      this.selectedCategory.id,
+      this.newProduct
+    );
 
     this.products.push(value);
 
