@@ -12,7 +12,8 @@
     "aurelia-bootstrapper": "^2.3.0",
     "aurelia-fetch-client": "^1.5.0",
     "aurelia-polyfills": "^1.3.0",
-    "bluebird": "^3.5.2"
+    "bluebird": "^3.5.2",
+    "msal": "^0.2.3"
   },
   "peerDependencies": {},
   "devDependencies": {

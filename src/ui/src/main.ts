@@ -13,6 +13,7 @@ export async function configure(aurelia: Aurelia) {
 
   aurelia.use
     .standardConfiguration()
+    .feature(PLATFORM.moduleName('features/authentication/index'))
     .feature(PLATFORM.moduleName('resources/index'));
 
   // Uncomment the line below to enable animation.

@@ -1,21 +1,26 @@
 import { HttpClient, json } from "aurelia-fetch-client";
 import { autoinject, Container } from "aurelia-framework";
 import environment from '../environment';
+import { AuthenticationContext } from "features/authentication";
 
 @autoinject
 class Mediator {
 
   constructor(
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    private authenticationContext: AuthenticationContext
     ) { }
 
     async send(name: string, request?: any): Promise<any> {
 
+
+      const token = await this.authenticationContext.acquireToken();
       const response = await this.httpClient.fetch(`${environment.api}mediator/${name}`, {
         body: (!!request && json(request)) || undefined,
         method: "POST",
         headers: {
-          "content-type": "application/json"
+          "content-type": "application/json",
+          "authorization": "Bearer " + token
         }
       })
   
