@@ -1,4 +1,6 @@
-﻿using DDDEastAnglia.Api.Data;
+﻿using AutoMapper;
+using DDDEastAnglia.Api.Data;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +21,12 @@ namespace DDDEastAnglia.Api {
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            // Add AutoMapper and MediatR
+            services.AddAutoMapper(options => options.CreateMissingTypeMaps = true);
+            services.AddMediatR();
+
+
             services.AddCors();
             services.AddDbContext<Db>(options => options.UseInMemoryDatabase("temp"));
             services.AddMvc()
