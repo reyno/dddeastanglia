@@ -37,7 +37,9 @@ namespace DDDEastAnglia.Api.MediatR {
 
         public async Task Invoke(HttpContext httpContext) {
 
-            if (httpContext.Request.Path.StartsWithSegments(_mediatorOptions.RoutePrefix))
+            var prefix = $"/{_mediatorOptions.RoutePrefix.TrimStart('/')}";
+
+            if (httpContext.Request.Path.StartsWithSegments(prefix))
                 await HandleMediator(httpContext);
             else
                 await _next(httpContext);
