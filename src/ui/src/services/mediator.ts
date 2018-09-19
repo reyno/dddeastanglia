@@ -11,7 +11,7 @@ export class Mediator {
 
     async send(name: string, request?: any): Promise<any> {
 
-      const response = await this.httpClient.fetch(`${environment.api}_mediator/${name}`, {
+      const response = await this.httpClient.fetch(`${environment.api}mediator/${name}`, {
         body: (!!request && json(request)) || undefined,
         method: "POST",
         headers: {
