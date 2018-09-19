@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DDDEastAnglia.Api.Data;
 using DDDEastAnglia.Api.MediatR;
+using DDDEastAnglia.Api.MediatR.Requests.Categories;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -26,6 +27,9 @@ namespace DDDEastAnglia.Api {
 
             // Add pipeline behavior using open generics
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(PipelineBehavior<,>));
+
+            // Add my validator to DI
+            services.AddScoped<RequestValidator<CreateRequest>, CreateRequestValidator>();
 
             services.AddCors();
             services.AddDbContext<Db>(options => options.UseInMemoryDatabase("temp"));

@@ -1,5 +1,9 @@
 ﻿using DDDEastAnglia.Api.Data;
 using DDDEastAnglia.Api.Data.Entities;
+using DDDEastAnglia.Api.MediatR.Requests.Categories.Products;
+using DDDEastAnglia.Api.Models;
+using FluentValidation;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,60 +15,49 @@ namespace DDDEastAnglia.Api.Controllers {
     [Route("api/categories/{categoryId:int}/products")]
     [ApiController]
     public class CategoryProductsController : ControllerBase {
-        private readonly Db _db;
+        private readonly IMediator _mediator;
 
         public CategoryProductsController(
-            Db db
+            IMediator mediator
             ) {
-            _db = db;
+            _mediator = mediator;
         }
 
         // GET api/categories/1/products
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> Get(
+        public async Task<ActionResult<IEnumerable<ProductModel>>> Get(
             int categoryId
             ) {
 
-            if (!await _db.Categories.AnyAsync(x => x.Id == categoryId))
-                return NotFound();
+            try {
 
-            var products = await _db
-                .Products
-                .Where(x => x.Category.Id == categoryId)
-                .ToListAsync();
+                var models = await _mediator.Send(new GetAllRequest {
+                    CategoryId = categoryId
+                });
 
-            return Ok(products);
+                return Ok(models);
 
+            } catch (ValidationException e) {
+                return BadRequest(e);
+            }
         }
 
 
         // POST api/categories/1/products
         [HttpPost]
-        public async Task<ActionResult<Product>> Post(int categoryId, [FromBody, Bind("Title", "Description")] Product model) {
+        public async Task<ActionResult<ProductModel>> Post(int categoryId, [FromBody, Bind("Title", "Description")] Product model) {
 
-            var category = await _db.Categories.FindAsync(categoryId);
-            if (category == null)
-                return NotFound();
+            try {
 
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+                return await _mediator.Send(new CreateRequest {
+                    CategoryId = categoryId,
+                    Description = model.Description,
+                    Title = model.Title
+                });
 
-            if (await _db.Products.AnyAsync(x
-                => x.Category.Id == categoryId
-                && x.Title.Equals(model.Title)
-                ))
-                return BadRequest("Duplicate");
-
-            var newProduct = new Product {
-                Title = model.Title,
-                Description = model.Description,
-                Category = category
-            };
-
-            _db.Products.Add(newProduct);
-            await _db.SaveChangesAsync();
-
-            return Ok(newProduct);
+            } catch (ValidationException e) {
+                return BadRequest(e);
+            }
 
         }
 

@@ -2,6 +2,7 @@
 using DDDEastAnglia.Api.Data.Entities;
 using DDDEastAnglia.Api.MediatR.Requests.Categories;
 using DDDEastAnglia.Api.Models;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -36,13 +37,19 @@ namespace DDDEastAnglia.Api.Controllers {
         [HttpPost]
         public async Task<ActionResult<Category>> Post([FromBody, Bind("Title", "Description")] Category model)
         {
+            try {
 
-            var newCategory = await _mediator.Send(new CreateRequest {
-                Title = model.Title,
-                Description = model.Description
-            });
+                var newCategory = await _mediator.Send(new CreateRequest {
+                    Title = model.Title,
+                    Description = model.Description
+                });
 
-            return Ok(newCategory);
+                return Ok(newCategory);
+
+            } catch (ValidationException validationException) {
+                return BadRequest(validationException);
+            }
+
 
         }
     }
