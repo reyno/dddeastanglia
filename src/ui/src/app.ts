@@ -1,41 +1,60 @@
+import { ProductsService, ProductModel } from './../services/products';
 import { autoinject } from 'aurelia-framework';
-import { ValueService, ValueModel } from '../services/values';
+import { CategoriesService, CategoryModel } from '../services/categories';
+import './app.less';
 
 @autoinject
 export class App {
 
   message = 'Hello World!';
-  values: ValueModel[];
-  newValue: string;
+  categories: CategoryModel[];
+  newCategory: CategoryModel = { title: "" };
+  selectedCategory: CategoryModel;
+  products: ProductModel[];
+  newProduct: ProductModel = { title: "" };
 
   constructor(
-    private valueService: ValueService
+    private categoriesService: CategoriesService,
+    private productsService: ProductsService
   ) { }
 
   async attached() {
 
-    this.values = await this.valueService.getAll();
+    this.categories = await this.categoriesService.getAll();
 
   }
 
-  async addNewValue() {
+  async addCategory() {
 
-    const value = await this.valueService.create(this.newValue);
+    const value = await this.categoriesService.create(this.newCategory);
 
-    this.values.push(value);
+    this.categories.push(value);
+
+    this.newCategory = { title: "" };
 
   }
 
-  async delete(item) {
+  selectCategory(item) {
+    this.selectedCategory = item;
+    this.loadProducts();
+  }
 
-    event.stopImmediatePropagation();
+  async loadProducts() {
+    this.products = await this.productsService.getForCategory(this.selectedCategory.id);
+  }
 
-    await this.valueService.delete(item.id);
+  async addProduct() {
 
-    this.values.splice(
-      this.values.findIndex(x => x.id === item.id),
-      1
+    const value = await this.productsService.create(
+      this.selectedCategory.id,
+      this.newProduct
     );
 
+    this.products.push(value);
+
+    this.newProduct = { title: "" };
+
   }
+
+
 }

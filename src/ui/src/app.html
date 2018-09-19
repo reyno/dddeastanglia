@@ -1,8 +1,43 @@
 <template>
   <h1>${message}</h1>
-  <p>Add new value: <input value.bind="newValue"
-           size="8"><button click.trigger="addNewValue()">Add</button></p>
-  <ul>
-    <li repeat.for="item of values">(${item.id}) ${item.value}    <a href="#" click.delegate="delete(item)">delete</a></li>
-  </ul>
+
+
+  <div class="page-split">
+    <div class="auto-size categories">
+      <h2>Categories</h2>
+      <ul class="list">
+        <li repeat.for="item of categories"
+            class="${item === $parent.selectedCategory ? 'active' : ''}">
+          <a href="#"
+             click.delegate="selectCategory(item)">${item.title}</a>
+        </li>
+      </ul>
+      <p>Add New: <input value.bind="newCategory.title"
+               placeholder="Title" /><button click.trigger="addCategory()">Save</button></p>
+    </div>
+    <div class="products"
+         if.bind="!!selectedCategory">
+
+      <h2>Products</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Title</th>
+          </tr>
+        </thead>
+        <tr if.bind="!products || products.length === 0">
+          <td colspan="99">No products found</td>
+        </tr>
+        <tr repeat.for="item of products">
+          <td>${item.id}</td>
+          <td>${item.title}</td>
+        </tr>
+      </table>
+      <p>Add New: <input value.bind="newProduct.title"
+               placeholder="Title" /><button click.trigger="addProduct()">Save</button></p>
+
+    </div>
+  </div>
+
 </template>
