@@ -35,3 +35,13 @@ export class Mediator {
 
 
 }
+
+
+class ValidationError extends Error {
+  validationErrors: any[];
+  constructor(error: { validationErrors: any[] }) {
+    super();
+    this.validationErrors = error.validationErrors;
+  }
+}
+
