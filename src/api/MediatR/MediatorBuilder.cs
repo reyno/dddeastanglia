@@ -26,7 +26,7 @@ namespace DDDEastAnglia.Api.MediatR {
         }
 
         public MediatorBuilder AddJsonOptions(Action<MediatorJsonOptions> configure) {
-            _services.Configure(action);
+            _services.Configure(configure);
             return this;
         }
     }
