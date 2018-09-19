@@ -28,8 +28,8 @@ namespace DDDEastAnglia.Api {
             // Add pipeline behavior using open generics
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(PipelineBehavior<,>));
 
-            // Add my validator to DI
-            services.AddScoped<RequestValidator<CreateRequest>, CreateRequestValidator>();
+            // Add request validators to DI
+            services.AddRequestValidators();
 
             services.AddCors();
             services.AddDbContext<Db>(options => options.UseInMemoryDatabase("temp"));
