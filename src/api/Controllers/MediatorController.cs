@@ -41,7 +41,7 @@ namespace DDDEastAnglia.Api.Controllers {
                 var (requestType, responseType) = ResolveType(name);
 
                 // if we're unable to resolve request or response types, throw a 404
-                if (requestType == null || responseType == null) return BadRequest("Invalid request name");
+                if (requestType == null || responseType == null) return NotFound("Request not found");
 
                 // deserialize the request object
                 var request = GetRequest(requestType);
