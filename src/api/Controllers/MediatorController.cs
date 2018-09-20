@@ -69,6 +69,7 @@ namespace DDDEastAnglia.Api.Controllers {
 
         private (Type, Type) ResolveType(string name) {
 
+            // Highly opinionated approach to resolving the full type name of the request
             var fullName = $"DDDEastAnglia.Api.MediatR.Requests.{name}Request";
 
             var requestType = GetType()
@@ -77,8 +78,10 @@ namespace DDDEastAnglia.Api.Controllers {
                 .SingleOrDefault(x => x.FullName.Equals(fullName, StringComparison.OrdinalIgnoreCase))
                 ;
 
+            // Not found, so return null
             if (requestType == null) return (null, null);
 
+            // figure out what the response type is from the request type
             var responseType = requestType
                 .GetTypeInfo()
                 .ImplementedInterfaces
@@ -87,6 +90,7 @@ namespace DDDEastAnglia.Api.Controllers {
                 .FirstOrDefault()
                 ;
 
+            // return a typle of the request/response types
             return (requestType, responseType);
 
         }
