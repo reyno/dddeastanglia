@@ -25,7 +25,10 @@ namespace DDDEastAnglia.Api {
             services.AddMediatR();
 
             // Add pipeline behavior using open generics
-            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(PipelineBehavior<,>));
+            services.AddScoped(
+                typeof(IPipelineBehavior<,>), 
+                typeof(PipelineBehavior<,>)
+                );
 
             services.AddCors();
             services.AddDbContext<Db>(options => options.UseInMemoryDatabase("temp"));
