@@ -41,10 +41,6 @@ namespace DDDEastAnglia.Api {
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseHsts();
-            }
 
             app.UseCors(config => config
                 .AllowAnyHeader()
@@ -53,8 +49,8 @@ namespace DDDEastAnglia.Api {
                 .AllowCredentials()
             );
             
-            app.UseHttpsRedirection();
             app.UseMvc();
+
         }
     }
 }
