@@ -41,8 +41,6 @@ namespace DDDEastAnglia.Api {
         public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
-            } else {
-                app.UseHsts();
             }
 
             app.UseCors(config => config
@@ -52,7 +50,6 @@ namespace DDDEastAnglia.Api {
                 .AllowCredentials()
             );
 
-            app.UseHttpsRedirection();
             app.UseMvc();
         }
     }
