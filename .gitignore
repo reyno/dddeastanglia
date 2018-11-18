@@ -1,1 +1,4 @@
 .vs/
+/test/api.tests/bin/Debug/netcoreapp2.1
+/test/api.tests/obj/Debug/netcoreapp2.1
+/test/api.tests/obj
