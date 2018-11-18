@@ -32,6 +32,7 @@
         <tr repeat.for="item of products">
           <td>${item.id}</td>
           <td>${item.title}</td>
+          <td><button click.delegate="delete(item)">Delete</button></td>
         </tr>
       </table>
       <p>Add New: <input value.bind="newProduct.title"

@@ -5,6 +5,8 @@ interface IMediator {
   send(name: "categories.products.getAll", request: { categoryId: number }): Promise<CategoryModel[]>;
   send(name: "categories.products.create", request: CategoryProductCreateRequest): Promise<CategoryModel>;
 
+  send(name: "categories.products.delete", request: {id: number}): Promise<CategoryModel>;
+
 }
 
 interface CategoryProductCreateRequest extends ProductModel {

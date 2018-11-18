@@ -4,12 +4,14 @@ using DDDEastAnglia.Api.Data.Entities;
 using DDDEastAnglia.Api.Models;
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace DDDEastAnglia.Api.MediatR.Requests.Categories {
 
+    [Authorize("contributor")]
     public class CreateRequest : IRequest<CategoryModel> {
         public string Title { get; set; }
         public string Description { get; set; }
