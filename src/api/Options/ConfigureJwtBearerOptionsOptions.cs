@@ -37,10 +37,10 @@ namespace DDDEastAnglia.Api.Options {
                     var identity = context.Principal.Identity as ClaimsIdentity;
 
                     // Uncomment to make the user an contributor
-                    identity.AddClaim(new Claim(ClaimTypes.Role, "contributor"));
+                    // identity.AddClaim(new Claim(ClaimTypes.Role, "contributor"));
 
                     // Uncomment to make the user an administrator
-                     identity.AddClaim(new Claim(ClaimTypes.Role, "admin"));
+                    // identity.AddClaim(new Claim(ClaimTypes.Role, "admin"));
 
                     return Task.CompletedTask;
 
