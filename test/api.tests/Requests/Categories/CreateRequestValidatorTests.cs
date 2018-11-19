@@ -14,18 +14,39 @@ namespace api.tests.Requests.Categories {
         [TestMethod]
         public async Task Empty_Title_Is_Invalid() {
 
+            // ARRANGE
             var db = DbContextHelper.CreateInMemoryDbContext<Db>();
 
+            var validator = new CreateRequestValidator(db);
             var request = new CreateRequest {
                 Title = string.Empty
             };
 
-            var validator = new CreateRequestValidator(
-                db
-                );
-
+            // ACT
             var result = await validator.ValidateAsync(request);
 
+            // ASSERT
+            Assert.IsFalse(result.IsValid);
+
+        }
+
+        [TestMethod]
+        public async Task Duplicate_Title_Is_Invalid() {
+
+            // ARRANGE
+            var db = DbContextHelper.CreateInMemoryDbContext<Db>();
+            db.Categories.Add(new DDDEastAnglia.Api.Data.Entities.Category { Title = "Title 1" });
+            await db.SaveChangesAsync();
+
+            var validator = new CreateRequestValidator(db);
+            var request = new CreateRequest {
+                Title = "Title 1"
+            };
+
+            // ACT
+            var result = await validator.ValidateAsync(request);
+
+            // ASSERT
             Assert.IsFalse(result.IsValid);
 
         }
