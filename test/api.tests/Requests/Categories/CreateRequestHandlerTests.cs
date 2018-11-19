@@ -22,12 +22,11 @@ namespace api.tests.Requests.Categories {
             var mapper = new Mapper(new MapperConfiguration(options => {
                 options.AddProfile<AutoMapperProfile>();
             }));
-
+            
+            var handler = new CreateRequestHandler(db, mapper);
             var request = new CreateRequest {
                 Title = "A Title"
             };
-
-            var handler = new CreateRequestHandler(db, mapper);
 
             // ACT
             var result = await handler.Handle(request, CancellationToken.None);
