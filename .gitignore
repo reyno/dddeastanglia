@@ -1,4 +1,5 @@
 .vs/
-/test/api.tests/bin/Debug/netcoreapp2.1
-/test/api.tests/obj/Debug/netcoreapp2.1
+/test/api.tests/bin
 /test/api.tests/obj
+/src/MediatR.Generator/bin
+/src/MediatR.Generator/obj

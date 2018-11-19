@@ -5,7 +5,9 @@ VisualStudioVersion = 15.0.28010.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "api", "api\api.csproj", "{B5F13672-3489-4541-A1FD-863763B200CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "api.tests", "..\test\api.tests\api.tests.csproj", "{2B7A23E1-7158-4C4A-878A-A32B3B0A0D58}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "api.tests", "..\test\api.tests\api.tests.csproj", "{2B7A23E1-7158-4C4A-878A-A32B3B0A0D58}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.Generator", "MediatR.Generator\MediatR.Generator.csproj", "{F4AA0BA5-5FD4-432C-87CD-27358E5CDD68}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{2B7A23E1-7158-4C4A-878A-A32B3B0A0D58}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B7A23E1-7158-4C4A-878A-A32B3B0A0D58}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B7A23E1-7158-4C4A-878A-A32B3B0A0D58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4AA0BA5-5FD4-432C-87CD-27358E5CDD68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4AA0BA5-5FD4-432C-87CD-27358E5CDD68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4AA0BA5-5FD4-432C-87CD-27358E5CDD68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4AA0BA5-5FD4-432C-87CD-27358E5CDD68}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

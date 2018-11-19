@@ -7,11 +7,11 @@ import './app.less';
 export class App {
 
   message = 'Hello World!';
-  categories: CategoryModel[];
-  newCategory: CategoryModel = { title: "" };
-  selectedCategory: CategoryModel;
-  products: ProductModel[];
-  newProduct: ProductModel = { title: "" };
+  categories: any[];
+  newCategory: any = { title: "" };
+  selectedCategory: any;
+  products: any[];
+  newProduct: any = { title: "" };
 
   constructor(
   ) { }
